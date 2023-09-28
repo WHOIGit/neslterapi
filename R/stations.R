@@ -20,6 +20,14 @@ nearest_station <- function(latitude, longitude, timestamp=NULL) {
     longitude = paste(longitude),
     timestamp = format(timestamp, "%FT%T")
   )
-  url <- construct_url('/nearest-station', params);
-  cat(url)
+  url <- construct_url('/nearest-station', params)
+  s <- get_json(url)
+  return(list(
+    name = s$station$name,
+    latitude = s$geolocation$latitude,
+    longitude = s$geolocation$longitude,
+    distance_km = s$distance,
+    depth = s$depth,
+    comment = s$comment
+  ))
 }
