@@ -20,3 +20,11 @@ construct_url <- function(suffix, params=NULL) {
   base_url <- Sys.getenv("NESLTER_API_URL")
   return(paste0(base_url, suffix, construct_url_params(params)))
 }
+
+get_json <- function(url) {
+  response <- GET(url)
+  if(response$status_code == 200) {
+    s <- fromJSON(content(response, "text"))
+    return(s)
+  }
+}
