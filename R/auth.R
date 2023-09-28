@@ -1,10 +1,11 @@
 library(httr)
 library(readr)
+library(askpass)
 
 #' @export
 obtain_auth_token <- function(base_url) {
   username <- readline(prompt = "Username: ")
-  password <- readline(prompt = "Password: ")
+  password <- askpass("Password: ")
   data <- list(username = username, password = password)
   response <- POST(paste0(base_url, "/api-token-auth/"), body = data, encode = "form")
   content <- content(response, "parsed")
