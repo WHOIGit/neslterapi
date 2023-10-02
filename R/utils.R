@@ -24,7 +24,10 @@ construct_url <- function(suffix, params=NULL) {
 get_json <- function(url) {
   response <- GET(url)
   if(response$status_code == 200) {
-    s <- fromJSON(content(response, "text"))
+    s <- fromJSON(content(response, "text", encoding="UTF-8"))
     return(s)
+  } else {
+    error_message <- paste("Error:", response$status_code, content(response, "text"))
+    stop(error_message)
   }
 }
