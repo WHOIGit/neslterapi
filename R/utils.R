@@ -1,3 +1,4 @@
+#' @importFrom jsonlite fromJSON
 
 construct_url_params <- function(params=NULL) {
   param_strs <- sapply(names(params), function(key) {
