@@ -6,7 +6,7 @@ nearest_stations <- function(input_df, timestamp_column=NULL, latitude_column=NU
     latitude_column = latitude_column,
     longitude_column = longitude_column
   )
-  url <- construct_url('/nearest-station-csv/', params)
+  url <- construct_url('/add-nearest-stations/', params)
   return(post_csv(url, input_df))
 }
 
