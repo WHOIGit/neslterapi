@@ -32,3 +32,8 @@ get_json <- function(url) {
     stop(error_message)
   }
 }
+
+get_csv <- function(url) {
+  response = GET(url)
+  return(parse_csv(response))
+}

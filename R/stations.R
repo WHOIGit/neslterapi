@@ -1,6 +1,6 @@
 
 #' @export
-nearest_stations <- function(input_df, timestamp_column=NULL, latitude_column=NULL, longitude_column=NULL) {
+add_nearest_stations <- function(input_df, timestamp_column=NULL, latitude_column=NULL, longitude_column=NULL) {
   params <- list(
     timestamp_column = timestamp_column,
     latitude_column = latitude_column,
@@ -30,4 +30,16 @@ nearest_station <- function(latitude, longitude, timestamp=NULL) {
     depth = s$depth,
     comment = s$comment
   ))
+}
+
+#' @export
+station_list <- function(timestamp=NULL) {
+  if(is.null(timestamp)) {
+    timestamp <- Sys.time()
+  }
+  params <- list(
+    timestamp = format(timestamp, "%FT%T")
+  )
+  url <- construct_url('/station-list', params)
+  return(get_csv(url))
 }

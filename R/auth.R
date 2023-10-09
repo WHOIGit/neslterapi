@@ -15,6 +15,17 @@ obtain_auth_token <- function(base_url) {
   cat(paste0('NESLTER_API_TOKEN="', token, '"\n'))
 }
 
+parse_csv <- function(response) {
+  if(response$status_code == 200) {
+    output_file_path <- tempfile(fileext = ".csv")
+    writeBin(response$content, output_file_path)
+    output_df <- read_csv(output_file_path)
+    return(output_df)
+  } else {
+    error_message <- paste("Error:", response$status_code, content(response, "text"))
+    stop(error_message)
+  }
+}
 # make an authorized POST request with a CSV body and response
 post_csv <- function(url, input_df) {
   file_path <- tempfile(fileext = ".csv")
@@ -31,13 +42,8 @@ post_csv <- function(url, input_df) {
     encode = "multipart"
   )
 
-  if(response$status_code == 200) {
-    output_file_path <- tempfile(fileext = ".csv")
-    writeBin(response$content, output_file_path)
-    output_df <- read_csv(output_file_path)
-    return(output_df)
-  } else {
-    error_message <- paste("Error:", response$status_code, content(response, "text"))
-    stop(error_message)
-  }
+  df <- parse_csv(response)
+  return(df)
 }
+
+
